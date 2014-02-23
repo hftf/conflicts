@@ -1,0 +1,8 @@
+"{0, 1}",ast,exp,mat
+"{1, 2}",ana,che,com
+"{2, 3}",dis,roc,wri
+"{3, 4}",des,for,tec
+"{4, 5}",geo,wat
+"{5, 6}",cir
+"{6, 7}",dyn,ent
+"{}",boo,bun,ela,mag,mis,scr
