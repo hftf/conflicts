@@ -33,9 +33,6 @@ PairwiseDisjointQ[l__]:=
 PairwiseDisjointQ@@@%
 
 
-(Not@FalseQ@#&)[True]
-
-
 pairs[n_]:=pairs[n]=DeleteCases[Map[sched,Subsets[events,{n}],{2}],False,2]
 conflicts[n_]:=Monitor[
 	(prog[n]=0;conflicts[n]=(prog[n]++;(*##->*)PairwiseDisjointQ@@##)&/@pairs[n]),
@@ -64,19 +61,4 @@ bern={0., 0., 0.057971, 0.168972, 0.318182, 0.483954, 0.643258}
 syoa={0., 0., 0.055336, 0.161491, 0.305025, 0.466195, 0.623585}
 
 
-pairs[3]
-
-
 Reverse[Select[#,Not@FalseQ@#&]&/@pairs[3],2]//Sort
-
-
-DeleteDuplicates[{1<=A<2,1<=A<2}]
-
-
-a=pairs[3]
-DeleteCases[a,False,2]
-PairwiseDisjointQ@@a[[1]]
-PairwiseDisjointQ@@DeleteDuplicates@a[[1]]
-
-
-PairwiseDisjointQ[{}]
