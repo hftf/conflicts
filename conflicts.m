@@ -1,6 +1,5 @@
 (* ::Package:: *)
 
-Unprotect@Interval; Interval[{}]=Interval[]; Protect@Interval;
 p=FileNameJoin[{NotebookDirectory[], "2014ny.txt"}];
 d=ToExpression@Import[p,"CSV"]
 
