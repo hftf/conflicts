@@ -50,7 +50,9 @@ Column[{
 	TableForm[N[distros,2],TableHeadings->{list,ns}],
 	ListLinePlot[
 		distros,
-		PlotRange->{0,1},PlotLegends->list,PlotStyle->Thick,AxesStyle->Thick,ImageSize->Medium
+		PlotRange->{0,1},PlotLegends->list,PlotStyle->Thick,ImageSize->Medium,
+		Frame->{True},FrameLabel->{"Number of events", "Probability of conflict"},
+		FrameTicks->{{True,Automatic},{Range[0,10],{#,""}&/@Range[0,10]}}
 	]
 }]
 Export[FileNameJoin[{NotebookDirectory[], "conflicts.pdf"}],%]
