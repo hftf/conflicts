@@ -4,7 +4,7 @@ Clear[sched];Clear[events];Clear[pairs];Clear[conflicts];
 
 
 list={"2014nats", "2014wa", "2014nats-nowalkins"};
-ns=Range[0,9];
+ns=Range[1,9];
 
 f[]=False;
 f[m_,n_]=m<=A<n;
@@ -52,7 +52,7 @@ Column[{
 		distros,
 		PlotRange->{0,1},PlotLegends->list,PlotStyle->Thick,ImageSize->Medium,
 		Frame->{True},FrameLabel->{"Number of events", "Probability of conflict"},
-		FrameTicks->{{True,Automatic},{Range[0,10],{#,""}&/@Range[0,10]}}
+		FrameTicks->{{True,Automatic},{ns,{#,""}&/@ns}}
 	]
 }]
 Export[FileNameJoin[{NotebookDirectory[], "conflicts.pdf"}],%]
