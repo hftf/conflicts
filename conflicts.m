@@ -2,7 +2,7 @@
 
 Clear[sched];Clear[events];Clear[pairs];Clear[conflicts];
 
-list={"2014ny", "2014nats", "2014wa"};
+list={"2014nats", "2014wa"};
 
 f[]=False;
 f[m_,n_]=m<=A<n;
@@ -41,7 +41,7 @@ Function[file,
 
 	Pfalse@
 		conflicts[file,#]&/@
-			Range[0,9]
+			Range[0,7]
 ]/@list
 
 ListLinePlot[
