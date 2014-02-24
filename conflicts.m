@@ -5,6 +5,25 @@ list={"2014ny", "2014nats", "2014wa"};
 f[]=False;
 f[m_,n_]=m<=A<n;
 
+FalseQ=#===False&;
+PairwiseDisjointQ[]=True;
+PairwiseDisjointQ[l__]:=
+	PairwiseDisjointQ[l]=
+		And@@
+			FalseQ/@
+				Reduce/@
+					And@@@
+						Subsets[{l},{2}];
+
+pairs[n_]:=pairs[n]=DeleteCases[Map[sched,Subsets[events,{n}],{2}],False,2]
+conflicts[n_]:=Monitor[
+	(prog[n]=0;conflicts[n]=(prog[n]++;(*##->*)PairwiseDisjointQ@@##)&/@pairs[n]),
+	n->ProgressIndicator[prog[n],{0,Length[pairs[n]]}]
+]
+Pfalse=Count[#,False]/Length[#]&;
+falses2[c_]:=Select[c,!#[[2]]&] (* use with -> only *)
+Pfalse2=Count[#[[2]]&/@#,False]/Length[#]&;
+
 Clear[sched];Clear[events];Clear[pairs];Clear[conflicts];
 
 Function[file,
@@ -19,29 +38,7 @@ Function[file,
 			(AppendTo[events[file],#];sched[file][#]=First[l])& /@ Rest[#]
 		]&/@
 			inequalities[file]
-
 ]/@list
-
-
-FalseQ=#===False&;
-PairwiseDisjointQ[]=True;
-PairwiseDisjointQ[l__]:=
-	PairwiseDisjointQ[l]=
-		And@@
-			FalseQ/@
-				Reduce/@
-					And@@@
-						Subsets[{l},{2}];
-
-
-pairs[n_]:=pairs[n]=DeleteCases[Map[sched,Subsets[events,{n}],{2}],False,2]
-conflicts[n_]:=Monitor[
-	(prog[n]=0;conflicts[n]=(prog[n]++;(*##->*)PairwiseDisjointQ@@##)&/@pairs[n]),
-	n->ProgressIndicator[prog[n],{0,Length[pairs[n]]}]
-]
-Pfalse=Count[#,False]/Length[#]&;
-falses2[c_]:=Select[c,!#[[2]]&] (* use with -> only *)
-Pfalse2=Count[#[[2]]&/@#,False]/Length[#]&;
 
 
 (#->Pfalse@conflicts@#)&/@Range[0,8]//N (*// RuntimeTools`Profile*)
