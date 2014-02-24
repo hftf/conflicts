@@ -46,11 +46,14 @@ distros=Function[file,
 			ns
 ]/@list;
 
-TableForm[N[distros,2],TableHeadings->{list,ns}]
-ListLinePlot[
-	distros,
-	PlotRange->{0,1},PlotLegends->list,PlotStyle->PointSize[Large]
-]
+Column[{
+	TableForm[N[distros,2],TableHeadings->{list,ns}],
+	ListLinePlot[
+		distros,
+		PlotRange->{0,1},PlotLegends->list,PlotStyle->Thick,AxesStyle->Thick,ImageSize->Medium
+	]
+}]
+Export[FileNameJoin[{NotebookDirectory[], "conflicts.pdf"}],%]
 
 
 Reverse[Select[#,Not@FalseQ@#&]&/@pairs[3]//Tally,2]//Sort//Reverse
