@@ -4,6 +4,7 @@ Clear[sched];Clear[events];Clear[pairs];Clear[conflicts];
 
 
 list={"2014nats", "2014wa", "2014nats-nowalkins"};
+ns=Range[0,9];
 
 f[]=False;
 f[m_,n_]=m<=A<n;
@@ -27,7 +28,7 @@ Pfalse=Count[#,False]/Length[#]&;
 falses2[c_]:=Select[c,!#[[2]]&]; (* use with -> only *)
 Pfalse2=Count[#[[2]]&/@#,False]/Length[#]&;
 
-Function[file,
+distros=Function[file,
 	events[file]={};
 	fullpath[file]=FileNameJoin[{NotebookDirectory[], "schedules/", file <> ".txt"}];
 	table[file]=ToExpression@Import[fullpath[file],"CSV"];
@@ -42,11 +43,12 @@ Function[file,
 
 	Pfalse@
 		conflicts[file,#]&/@
-			Range[0,7]
-]/@list
+			ns
+]/@list;
 
+TableForm[N[distros,2],TableHeadings->{list,ns}]
 ListLinePlot[
-	%,
+	distros,
 	PlotRange->{0,1},PlotLegends->list,PlotStyle->PointSize[Large]
 ]
 
