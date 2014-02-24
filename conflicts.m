@@ -32,9 +32,6 @@ PairwiseDisjointQ[l__]:=
 				Reduce/@
 					And@@@
 						Subsets[{l},{2}];
-	
-{{0<=A<1},{False},{0<=A<1,False},{1<=A<2,1<=A<2,2<=A<3},{0<=A<1,1<=A<2,2<=A<3,False}};
-PairwiseDisjointQ@@@%
 
 
 pairs[n_]:=pairs[n]=DeleteCases[Map[sched,Subsets[events,{n}],{2}],False,2]
@@ -45,13 +42,6 @@ conflicts[n_]:=Monitor[
 Pfalse=Count[#,False]/Length[#]&;
 falses2[c_]:=Select[c,!#[[2]]&] (* use with -> only *)
 Pfalse2=Count[#[[2]]&/@#,False]/Length[#]&;
-
-
-Pfalse@conflicts[1]
-Pfalse@conflicts[2]
-Pfalse@conflicts[3]
-Pfalse@conflicts[4]
-Pfalse@conflicts[5]
 
 
 (#->Pfalse@conflicts@#)&/@Range[0,8]//N (*// RuntimeTools`Profile*)
