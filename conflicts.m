@@ -2,7 +2,8 @@
 
 Clear[sched];Clear[events];Clear[pairs];Clear[conflicts];
 
-list={"2014nats", "2014wa"};
+
+list={"2014nats", "2014wa", "2014nats-nowalkins"};
 
 f[]=False;
 f[m_,n_]=m<=A<n;
