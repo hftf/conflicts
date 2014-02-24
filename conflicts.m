@@ -1,5 +1,7 @@
 (* ::Package:: *)
 
+Clear[sched];Clear[events];Clear[pairs];Clear[conflicts];
+
 list={"2014ny", "2014nats", "2014wa"};
 
 f[]=False;
@@ -15,16 +17,14 @@ PairwiseDisjointQ[l__]:=
 					And@@@
 						Subsets[{l},{2}];
 
-pairs[n_]:=pairs[n]=DeleteCases[Map[sched,Subsets[events,{n}],{2}],False,2]
-conflicts[n_]:=Monitor[
-	(prog[n]=0;conflicts[n]=(prog[n]++;(*##->*)PairwiseDisjointQ@@##)&/@pairs[n]),
-	n->ProgressIndicator[prog[n],{0,Length[pairs[n]]}]
-]
+pairs[file_,n_]:=pairs[file,n]=DeleteCases[Map[sched[file],Subsets[events[file],{n}],{2}],False,2];
+conflicts[file_,n_]:=Monitor[
+	(prog[n]=0;conflicts[file,n]=(prog[n]++;(*##->*)PairwiseDisjointQ@@##)&/@pairs[file,n]),
+	n->ProgressIndicator[prog[n],{0,Length[pairs[file,n]]}]
+];
 Pfalse=Count[#,False]/Length[#]&;
-falses2[c_]:=Select[c,!#[[2]]&] (* use with -> only *)
+falses2[c_]:=Select[c,!#[[2]]&]; (* use with -> only *)
 Pfalse2=Count[#[[2]]&/@#,False]/Length[#]&;
-
-Clear[sched];Clear[events];Clear[pairs];Clear[conflicts];
 
 Function[file,
 	events[file]={};
@@ -37,11 +37,20 @@ Function[file,
 		With[{l=#},
 			(AppendTo[events[file],#];sched[file][#]=First[l])& /@ Rest[#]
 		]&/@
-			inequalities[file]
+			inequalities[file];
+
+	Pfalse@
+		conflicts[file,#]&/@
+			Range[0,4]
 ]/@list
 
+ListLinePlot[
+	%,
+	PlotRange->{0,1},PlotLegends->list,PlotStyle->PointSize[Large]
+]
 
-(#->Pfalse@conflicts@#)&/@Range[0,8]//N (*// RuntimeTools`Profile*)
+
+?pairs
 
 
 DiscretePlot[{syoa[[n+1]], bern[[n+1]], Style[nats[[n+1]],Orange]},{n,1,6},PlotRange->{0,1}]
