@@ -51,15 +51,4 @@ ListLinePlot[
 ]
 
 
-?pairs
-
-
-DiscretePlot[{syoa[[n+1]], bern[[n+1]], Style[nats[[n+1]],Orange]},{n,1,6},PlotRange->{0,1}]
-
-
-nats={0., 0., 0.055336, 0.161491, 0.305025, 0.466195, 0.623585}
-bern={0., 0., 0.057971, 0.168972, 0.318182, 0.483954, 0.643258}
-syoa={0., 0., 0.055336, 0.161491, 0.305025, 0.466195, 0.623585}
-
-
 Reverse[Select[#,Not@FalseQ@#&]&/@pairs[3]//Tally,2]//Sort//Reverse
