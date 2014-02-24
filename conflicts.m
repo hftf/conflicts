@@ -1,21 +1,26 @@
 (* ::Package:: *)
 
-p=FileNameJoin[{NotebookDirectory[], "2014ny.txt"}];
-d=ToExpression@Import[p,"CSV"]
+list={"2014ny", "2014nats", "2014wa"};
 
-f[]=False
-f[m_,n_]=m<=A<n
-i=f@@@#&/@d
+f[]=False;
+f[m_,n_]=m<=A<n;
 
-Clear[sched];events={};Clear[pairs];Clear[conflicts];
-With[{l=#},(AppendTo[events,#];sched[#]=First[l])&/@Rest[#]]&/@i//Flatten
+Clear[sched];Clear[events];Clear[pairs];Clear[conflicts];
 
+Function[file,
+	events[file]={};
+	fullpath[file]=FileNameJoin[{NotebookDirectory[], "schedules/", file <> ".txt"}];
+	table[file]=ToExpression@Import[fullpath[file],"CSV"];
 
-(*?sched
-?events*)
+	inequalities[file]=f@@@#&/@(table[file]);
 
-(*MyAnd[n___ /; Length[{n}] == 1]:=True
-MyAnd[n___]:=And[n]*)
+	Flatten@
+		With[{l=#},
+			(AppendTo[events[file],#];sched[file][#]=First[l])& /@ Rest[#]
+		]&/@
+			inequalities[file]
+
+]/@list
 
 
 FalseQ=#===False&;
