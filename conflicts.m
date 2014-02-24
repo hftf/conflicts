@@ -19,8 +19,8 @@ PairwiseDisjointQ[l__]:=
 
 pairs[file_,n_]:=pairs[file,n]=DeleteCases[Map[sched[file],Subsets[events[file],{n}],{2}],False,2];
 conflicts[file_,n_]:=Monitor[
-	(prog[n]=0;conflicts[file,n]=(prog[n]++;(*##->*)PairwiseDisjointQ@@##)&/@pairs[file,n]),
-	n->ProgressIndicator[prog[n],{0,Length[pairs[file,n]]}]
+	(prog[file,n]=0;conflicts[file,n]=(prog[file,n]++;(*##->*)PairwiseDisjointQ@@##)&/@pairs[file,n]),
+	n->ProgressIndicator[prog[file,n],{0,Length[pairs[file,n]]}]
 ];
 Pfalse=Count[#,False]/Length[#]&;
 falses2[c_]:=Select[c,!#[[2]]&]; (* use with -> only *)
@@ -41,7 +41,7 @@ Function[file,
 
 	Pfalse@
 		conflicts[file,#]&/@
-			Range[0,4]
+			Range[0,9]
 ]/@list
 
 ListLinePlot[
